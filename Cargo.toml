@@ -1,11 +1,11 @@
 [package]
-authors = ["MaidSafe Developers <dev@maidsafe.net>", "Messense Lv <messense@icloud.com>"]
+authors = ["MaidSafe Developers <dev@maidsafe.net>", "Messense Lv <messense@icloud.com>", "ifNil <ifnil.git@gmail.com>"]
 description = "Return interface IP addresses on Posix and windows systems"
 license = "MIT OR BSD-3-Clause"
-name = "if-addrs"
+name = "if-addrs2"
 readme = "README.md"
-repository = "https://github.com/messense/if-addrs"
-version = "0.10.1"
+repository = "https://github.com/if-nil/if-addrs2"
+version = "0.10.2"
 edition = "2018"
 
 [target.'cfg(not(target_os = "windows"))'.dependencies]
@@ -20,6 +20,9 @@ features = [
     "Win32_NetworkManagement_IpHelper",
     "Win32_NetworkManagement_Ndis",
 ]
+
+[target."cfg(target_os = \"windows\")".dependencies.widestring]
+version = "1.0.2"
 
 [features]
 link-local = []

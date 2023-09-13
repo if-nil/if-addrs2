@@ -7,8 +7,8 @@
 // specific language governing permissions and limitations relating to use of the SAFE Network
 // Software.
 
-use std::ffi::CStr;
 use std::{io, ptr};
+use widestring::WideCString;
 use windows_sys::Win32::Foundation::{ERROR_BUFFER_OVERFLOW, ERROR_SUCCESS};
 use windows_sys::Win32::NetworkManagement::IpHelper::{
     GetAdaptersAddresses, GAA_FLAG_INCLUDE_PREFIX, GAA_FLAG_SKIP_ANYCAST, GAA_FLAG_SKIP_DNS_SERVER,
@@ -25,9 +25,8 @@ pub struct IpAdapterAddresses(*const IP_ADAPTER_ADDRESSES_LH);
 impl IpAdapterAddresses {
     #[allow(unsafe_code)]
     pub fn name(&self) -> String {
-        unsafe { CStr::from_ptr((*self.0).AdapterName as _) }
+        unsafe { WideCString::from_ptr_str((*self.0).FriendlyName as _) }
             .to_string_lossy()
-            .into_owned()
     }
 
     pub fn ipv4_index(&self) -> Option<u32> {
@@ -86,8 +85,7 @@ impl IfAddrs {
                     GAA_FLAG_SKIP_ANYCAST
                         | GAA_FLAG_SKIP_MULTICAST
                         | GAA_FLAG_SKIP_DNS_SERVER
-                        | GAA_FLAG_INCLUDE_PREFIX
-                        | GAA_FLAG_SKIP_FRIENDLY_NAME,
+                        | GAA_FLAG_INCLUDE_PREFIX,
                     ptr::null_mut(),
                     ifaddrs,
                     &mut buffersize,
