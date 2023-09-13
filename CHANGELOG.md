@@ -1,5 +1,8 @@
 # if-addrs - Change Log
 
+## [0.10.2]
+- Return friendly-name on Windows platform
+
 ## [0.7.0]
 - Fix support for Android 11
 - Drop support for Android `<` 7
